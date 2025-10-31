@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.cdnfonts.com/css/iris" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="imagenes/Logo/Logo3.png" alt="">
+        </div>
+        <div class="texto">
+            <h1>PARANOIC GAMES - MIND BLOWING GAMES</h1>
+        </div>
+    </header>
+    <nav>
+        <div class="btn estadisticas">ESTADÍSTICAS</div>
+        <div class="btn idioma">IDIOMA</div>
+        <div class="btn jugar">JUGAR</div>
+    </nav>
+    <section>
+        <main>
+            <div class="container">
+                <div id="container-tabla"></div>
+                <div id="container-teclado"></div>
+            </div>
+        </main>
+
+        <aside>
+            <div class="estadisticas bloque1">
+                <H1>TIEMPO POR PARTIDA</H1>
+                <div class="tiempo">
+                    <img id="partida-centenas" src="imagenes/Numeros/1.png" alt="centenas">
+                    <img id="partida-decenas" src="imagenes/Numeros/8.png" alt="decenas">
+                    <img id="partida-unidades" src="imagenes/Numeros/0.png" alt="unidades">
+                </div>
+            </div>
+            <div class="estadisticas bloque2">
+                <h1>TIEMPO POR LÍNEA</h1>
+                <div class="tiempo">
+                    <img id="linea-decenas" src="imagenes/Numeros/6.png" alt="decenas">
+                    <img id="linea-unidades" src="imagenes/Numeros/0.png" alt="unidades">
+                </div>
+            </div>
+            <div class="estadisticas bloque3">
+                <h1>PALABRA SECRETA</h1>
+                <div id="palabraSecreta"></div>
+            </div>
+        </aside>
+    </section>
+    <footer>
+
+    </footer>
+
+    <!-- link al js el defer dejará que se cargue primero el html antes de empzar con el js-->
+    <script src="script.js" defer></script>
+
+</body>
+</html>
