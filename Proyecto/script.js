@@ -149,10 +149,12 @@
 
 
     //PARA COMENZAR EL JUEGO
+    let comenzarPartida = false;
     document.querySelector(".jugar").addEventListener("click", empezarPartida)
     function empezarPartida(){
         //LLamamos a la función para que traiga una palabra secreta
         leerPalabra();
+        comenzarPartida = true;
         // Si ya hay un temporizador en marcha, lo detenemos
         if (intervaloPartida) clearInterval(intervaloPartida);
         tiempoPartida = 180;
@@ -164,56 +166,58 @@
 
     //Función para que aparezca la letra presionada en el lugar correspondiente
     function presionaTecla(elemento) {
-        // Obtengo el id de la tecla, y la paso a número (aunque será un string con dos cifras)
-        let letra = Number(elemento.id);
-        //Introduzco en el array palabra cada letra según la posición del abecedario
-        letras.push(abecedario[letra]);
+        if (comenzarPartida){
+            // Obtengo el id de la tecla, y la paso a número (aunque será un string con dos cifras)
+            let letra = Number(elemento.id);
+            //Introduzco en el array palabra cada letra según la posición del abecedario
+            letras.push(abecedario[letra]);
 
-        //Mensajes de depuración
-        console.log('ID tecla:', letra);
-        console.log('SRC tecla:', elemento.src);
-        console.log("Array abecedario", abecedario[letra]);
-        console.log("Array letras", letras);
+            //Mensajes de depuración
+            console.log('ID tecla:', letra);
+            console.log('SRC tecla:', elemento.src);
+            console.log("Array abecedario", abecedario[letra]);
+            console.log("Array letras", letras);
 
-        //Selecciono todas las celdas (todas las imágenes de la tabla principal)
-        let containerTabla = document.getElementById("container-tabla");
-        let celdas = containerTabla.querySelectorAll("img");
+            //Selecciono todas las celdas (todas las imágenes de la tabla principal)
+            let containerTabla = document.getElementById("container-tabla");
+            let celdas = containerTabla.querySelectorAll("img");
 
-        // Recorro las celdas de la tabla principal
-        for (let celda of celdas) {
-            
-            // Compruebo si la celda está vacía (imagen de vacio.gif)
-            if (celda.src.includes("29.png")) { 
+            // Recorro las celdas de la tabla principal
+            for (let celda of celdas) {
                 
-                // Si está vacía, le asigno la imagen de la tecla pulsada
-                celda.src = elemento.src;
-                contLetras++;  //Incremento el contador de letras introducidas  
-                console.log("Contador letras fila: ", contLetras);   
+                // Compruebo si la celda está vacía (imagen de vacio.gif)
+                if (celda.src.includes("29.png")) { 
+                    
+                    // Si está vacía, le asigno la imagen de la tecla pulsada
+                    celda.src = elemento.src;
+                    contLetras++;  //Incremento el contador de letras introducidas  
+                    console.log("Contador letras fila: ", contLetras);   
 
-                celdaIdArray.push(celda.id); //Meto el ID en el array de celdas
-                //Reinicio del tiempo de línea al escribir la primera letra
-                
-                //Si ya se han introducido 5 letras
-                if (contLetras === 5) {
-                    console.log("Palabra completa");
-                    let palabraGenerada = "";// Reiniciar el temporizador de línea, cada vez que empieza una nueva línea
-                    if (intervaloLinea) clearInterval(intervaloLinea);
-                    tiempoLinea = 60;
-                    contaTiempoLinea();
-                    //Recorro el array palabra, para unir las letras en un string
-                    letras.forEach(elemento => {
-                        palabraGenerada = palabraGenerada + elemento; 
-                    });
-                    contLetras = 0;  //Reinicio el contador de letras
-                    console.log(palabraGenerada)
-                    //delete letras; NO hace falta eliminar el array letras, creando nuevo es suficiente
-                    letras = [];   //Creo uno nuevo array
-                    compara(palabraSecreta, palabraGenerada); //Llamo a la función que compara las dos palabras
-                }else{
-                    //Si aún no se han completado 5 letras
-                    celdaId = celda.id; //Guardo el ID de la celda actual
+                    celdaIdArray.push(celda.id); //Meto el ID en el array de celdas
+                    //Reinicio del tiempo de línea al escribir la primera letra
+                    
+                    //Si ya se han introducido 5 letras
+                    if (contLetras === 5) {
+                        console.log("Palabra completa");
+                        let palabraGenerada = "";// Reiniciar el temporizador de línea, cada vez que empieza una nueva línea
+                        if (intervaloLinea) clearInterval(intervaloLinea);
+                        tiempoLinea = 60;
+                        contaTiempoLinea();
+                        //Recorro el array palabra, para unir las letras en un string
+                        letras.forEach(elemento => {
+                            palabraGenerada = palabraGenerada + elemento; 
+                        });
+                        contLetras = 0;  //Reinicio el contador de letras
+                        console.log(palabraGenerada)
+                        //delete letras; NO hace falta eliminar el array letras, creando nuevo es suficiente
+                        letras = [];   //Creo uno nuevo array
+                        compara(palabraSecreta, palabraGenerada); //Llamo a la función que compara las dos palabras
+                    }else{
+                        //Si aún no se han completado 5 letras
+                        celdaId = celda.id; //Guardo el ID de la celda actual
+                    }
+                break; //Rompo el bucle para no seguir recorriendo las celdas
                 }
-            break; //Rompo el bucle para no seguir recorriendo las celdas
             }
         }
     }
