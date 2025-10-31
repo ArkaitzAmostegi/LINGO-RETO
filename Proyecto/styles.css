@@ -143,5 +143,8 @@ aside h1{
 aside img{
   width: 150px;
 }
-
+#palabraSecreta{
+  text-align: center;
+  font-size: 2rem;
+}
 

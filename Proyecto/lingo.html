@@ -48,8 +48,8 @@
             </div>
             <div class="estadisticas bloque3">
                 <h1>PALABRA SECRETA</h1>
-                <P id="emocion"></P>
                 <div id="palabraSecreta"></div>
+                <P id="emocion"></P>
             </div>
         </aside>
     </section>
@@ -64,16 +64,12 @@
         let palabraSecreta = "";
 
         // 1) Función asíncrona: usa await con fetch y con resp.json() (Sin control de errores)
-
         async function leerPalabra() {
             const resp = await fetch(ENDPOINT);      // espera la respuesta HTTP
             const data = await resp.json();          // lee y parsea el cuerpo a JSON
             palabraSecreta = (data.word).toUpperCase();
             console.log(palabraSecreta);
         }
-
-        //LLamamos a la función para la palabra secreta
-        leerPalabra();
 
         let tiempoLinea; //En segundos
         let tiempoPartida; //En segundos
@@ -113,12 +109,10 @@
 
             if (tiempoPartida <= 0) {
             clearInterval(intervaloPartida);
+            document.getElementById("emocion").innerText = "Lo Sentimos, no has acertado 😢!!!"
+            document.getElementById("palabraSecreta").innerText = palabraSecreta
             alert("¡Se ha acabado el tiempo!");
-            mocion = document.getElementById("emocion").innerText = "Lo Sentimos!!!"
-            palabraSecretaId = document.getElementById("palabraSecreta").innerText = palabraSecreta
-
-            // Deshabilitar clics en el teclado
-            document.querySelectorAll('#container-teclado img').forEach(img => img.onclick = null);
+            finPartida();
             }
         }, 1000);
         }
@@ -130,12 +124,10 @@
 
             if (tiempoLinea <= 0) {
             clearInterval(intervaloLinea);
+            document.getElementById("emocion").innerText = "Lo Sentimos, no has acertado 😢!!!"
+            document.getElementById("palabraSecreta").innerText = palabraSecreta;
             alert("¡Se ha acabado el tiempo!");
-            emocion = document.getElementById("emocion").innerText = "Lo Sentimos!!!"
-            palabraSecretaId = document.getElementById("palabraSecreta").innerText = palabraSecreta
-
-            // Deshabilitar clics en el teclado
-            document.querySelectorAll('#container-teclado img').forEach(img => img.onclick = null);
+            finPartida();
             }
         }, 1000);
         }
@@ -148,6 +140,9 @@
             tiempoLinea = 60;
             actualizarTiempoPartida();
             actualizarTiempoLinea();
+            
+            // Deshabilitar clics en el teclado
+            document.querySelectorAll('#container-teclado img').forEach(img => img.onclick = null);
         }
 
         //Variable para contar la cantidad de letras por línea
@@ -201,11 +196,14 @@
         //PARA COMENZAR EL JUEGO
         document.querySelector(".jugar").addEventListener("click", empezarPartida)
         function empezarPartida(){
+            //LLamamos a la función para que traiga una palabra secreta
+            leerPalabra();
             // Si ya hay un temporizador en marcha, lo detenemos
             if (intervaloPartida) clearInterval(intervaloPartida);
             tiempoPartida = 180;
             tiempoLinea = 60;
-            contaTiempoPartida()
+            //Empieza a contar el tiempo de partida
+            contaTiempoPartida();
         }
 
 
@@ -320,6 +318,8 @@
         // Si todas las letras son iguales, has ganado
         if (contAciertos === palabraSecreta.length) {
             alert("Has acertado la palabra secreta. ¡ENHORABUENA!");
+            document.getElementById("emocion").innerText = "Enhorabuena!!!"
+            document.getElementById("palabraSecreta").innerText = palabraSecreta
             finPartida();
         } else {
             console.log("NO son iguales");
