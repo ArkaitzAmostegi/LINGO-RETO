@@ -10,7 +10,6 @@ header {
     font-family: 'Iris', sans-serif;
     font-size: 4rem;
     background-color: #b3914d;
-    padding: 10px;
 }
 
 /* Hacemos que el logo ocupe solo su tamaño natural */
@@ -21,6 +20,8 @@ header .logo {
 }
 header img{
     border-radius: 8px;
+    width: 200px;
+    margin-left: 40px;
 }
 
 /* Este contenedor ocupa todo el espacio restante */
