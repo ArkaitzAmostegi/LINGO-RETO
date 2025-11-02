@@ -11,7 +11,7 @@ services:
     # Mapea la carpeta local 'app' al directorio de trabajo del contenedor
     volumes:
       - ./src:/var/www/html
-    # Expone el puerto 80 del contenedor al puerto 80 del host
+    # Expone el puerto 81 del contenedor al puerto 80 del host
     ports:
       - "81:80"
     depends_on:
@@ -30,12 +30,12 @@ services:
     environment:
       # Variables de entorno de MySQL. ¡Cambia las contraseñas!
       MYSQL_ROOT_PASSWORD: pasword
-      MYSQL_DATABASE: laravel_db
+      MYSQL_DATABASE: lingo_db
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     # Mapea un volumen para persistir los datos de la base de datos
     volumes:
-      - dbdata:/var/lib/mysql
+      - lingo_dbdata:/var/lib/mysql
     networks:
       - lingo_network
 
@@ -43,8 +43,8 @@ services:
   # 3. SERVICIO DE GESTIÓN DE BASES DE DATOS (phpMyAdmin)
   # ----------------------------------------------------
   phpmyadmin:
-    image: lingo/phpmyadmin
-    container_name: laravel-phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    container_name: lingo-phpmyadmin
     restart: unless-stopped
     # Mapea el puerto 8080 del host al 80 del phpMyAdmin
     ports:
