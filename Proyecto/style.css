@@ -1,0 +1,177 @@
+/* ----------
+      INDEX
+-------------- */
+
+body.index{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+}
+a{
+  margin: 10px;
+  font-size: 3rem;
+  text-decoration: none; /* quita la línea inferior */
+  color: white; /* pone el texto en blanco */
+}
+a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+/* -----------
+      LINGO
+------------- */
+
+header {
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* centra verticalmente el logo y el texto */
+    font-family: 'Iris', sans-serif;
+    font-size: 4rem;
+    background-color: #b3914d;
+}
+
+/* Hacemos que el logo ocupe solo su tamaño natural */
+header .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+header img{
+    border-radius: 8px;
+    width: 200px;
+    margin-left: 40px;
+}
+
+/* Este contenedor ocupa todo el espacio restante */
+header .texto {
+    flex: 1; /* ocupa el espacio libre */
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    color: white;
+    text-align: center;
+}
+
+nav{
+    display: flex;
+    justify-content: space-around;
+    background-color: #3d4c5c;
+    padding: 10px;
+}
+nav .btn{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2rem;
+    padding: 10px 80px;
+    margin: 5px;
+    background-color: aquamarine;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+nav .btn.jugar:hover{
+  background-color: #a8f0d1;
+  transform: scale(0.9);
+  transition: transform 0.2s ease-in-out;
+}
+/* Distribución general de main y aside */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* que ocupe toda la altura de la pantalla */
+  margin: 0;
+}
+/* Contenedor principal para main y aside */
+section {
+  display: flex;
+  flex: 1; /* ocupa el espacio restante bajo header y nav */
+  align-items: stretch; /*Para que el aside coja todo el vertical */
+  justify-content: center;
+}
+
+main,
+aside {
+  padding: 20px;
+  box-sizing: border-box;
+}
+main .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#container-tabla {
+  display: grid;
+  grid-template-columns: repeat(5, 100px);
+  grid-template-rows: repeat(5, 100px);
+  gap: 4px;
+  border: 2px solid black;
+  background-color: rgb(248, 213, 166);
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+#container-teclado {
+  display: grid;
+  grid-template-columns: repeat(10, 65px);
+  grid-template-rows: repeat(3, 65px);
+  gap: 4px;
+  margin: 20px;
+}
+
+.celda1, .celda2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  background-color: rgb(248, 213, 166);
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* tamaños de imagenes iguales a los que usabas antes */
+.celda1 img {
+  width: 80px;
+  height: 80px;
+  display: block;
+}
+
+.celda2 img {
+  width: 50px;
+  height: auto;
+  display: block;
+  cursor: pointer;
+}
+
+/* proporciones */
+main {
+  flex: 2; /* 2 partes */
+  background-color: #f6e7c5;
+}
+
+aside {
+  flex: 1; /* 1 parte */
+  background-color: #fcba5d;
+}
+aside{
+  display: flex;
+  flex-direction: column;
+}
+aside .estadisticas .tiempo{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+aside h1{
+  text-align: center;
+}
+aside img{
+  width: 150px;
+}
+#palabraSecreta{
+  text-align: center;
+  font-size: 2rem;
+}
+
