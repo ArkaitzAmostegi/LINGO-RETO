@@ -23,6 +23,9 @@ Route::get('/palabrasStyled', [PalabraController::class, 'indexStyled'])->name('
 //Ruta que devuelve de la tabla 'palabras' la cantidad de palabras aleatorias solicitada por URL y sino, devuelve 5 palabras
 Route::get('/palabrasRandom/{cantidad?}', [PalabraController::class, 'indexRandom'])->name('palabras.indexRandom');
 
+//Rutas que nos llevas a las páginas de acertado y no acertado
+Route::view('/acertado', 'lingo.acertado')->name('acertado');
+Route::view('/noAcertado', 'lingo.noAcertado')->name('noAcertado');
 
 Route::get('/dashboard', function () {
     return view('lingo.lingo');

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juego</title>
-    @vite(['resources/css/style.css', 'resources/js/script.js'])
+    <?php echo app('Illuminate\Foundation\Vite')(['resources/css/style.css', 'resources/js/script.js']); ?>
     <link href="https://fonts.cdnfonts.com/css/iris" rel="css/stylesheet">
 </head>
 
@@ -17,22 +17,22 @@
         <div class="texto">
             <h1>PARANOIC GAMES - MIND BLOWING GAMES</h1>
         </div>
-        @auth
+        <?php if(auth()->guard()->check()): ?>
             <div class="usuario">
-                <span>Hola, {{ Auth::user()->name }}</span>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
+                <span>Hola, <?php echo e(Auth::user()->name); ?></span>
+                <form method="POST" action="<?php echo e(route('logout')); ?>">
+                    <?php echo csrf_field(); ?>
                     <button type="submit">Cerrar sesión</button>
                 </form>
             </div>
-        @endauth
+        <?php endif; ?>
 
-        @guest
+        <?php if(auth()->guard()->guest()): ?>
             <div class="usuario">
-                <a href="{{ route('login') }}">Iniciar sesión</a>
-                <a href="{{ route('register') }}">Registrarse</a>
+                <a href="<?php echo e(route('login')); ?>">Iniciar sesión</a>
+                <a href="<?php echo e(route('register')); ?>">Registrarse</a>
             </div>
-        @endguest
+        <?php endif; ?>
     </header>
     <nav>
         <div class="btn jugar">JUGAR</div>
@@ -85,3 +85,4 @@
 
 </body>
 </html>
+<?php /**PATH /var/www/html/resources/views/lingo/lingo.blade.php ENDPATH**/ ?>

@@ -53,7 +53,7 @@
             if (tiempoPartida <= 0  || tableroLleno()) {
                 clearInterval(intervaloPartida);          
                 finPartida();
-                window.location.href= "noAcertado.html"
+                window.location.href= "/noAcertado"
             }
         }, 1000);
     }
@@ -67,7 +67,7 @@
             if (tiempoLinea <= 0){
                 clearInterval(intervaloLinea);
                 finPartida();
-                window.location.href = "noAcertado.html";
+                window.location.href = "/noAcertado";
             }
         }, 1000);
     }
@@ -277,15 +277,24 @@
         // Si todas las letras son iguales, has ganado
         if (contAciertos === palabraSecreta.length) {
             finPartida();
-            window.location.href= "acertado.html"
+            window.location.href= "/acertado"
         } else {
             contNoSonIguales ++;
         }
         if (contNoSonIguales === 5){
             finPartida();
-            window.location.href = "noAcertado.html";
+            window.location.href = "/noAcertado";
         }
 
         // Limpiamos el array de celdas para la siguiente palabra
         celdaIdArray = [];
     }
+    
+    // Exponer funciones al ámbito global
+        window.presionaTecla = presionaTecla;
+        window.empezarPartida = empezarPartida;
+        window.finPartida = finPartida;
+        window.tableroLleno = tableroLleno;
+        window.leerPalabra = leerPalabra;
+
+
