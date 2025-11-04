@@ -1,0 +1,298 @@
+/* ----------
+      INDEX
+-------------- */
+
+body.index{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+}
+a{
+  margin: 10px;
+  font-size: 3rem;
+  text-decoration: none; /* quita la línea inferior */
+  color: white; /* pone el texto en blanco */
+}
+a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+/* -----------
+      LINGO
+------------- */
+
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* centra verticalmente el logo y el texto */
+    font-family: 'Iris', sans-serif;
+    background-color: #1f2937;
+}
+
+/* Hacemos que el logo ocupe solo su tamaño natural */
+header .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+}
+header img{
+  width: 200px;
+    border-radius: 8px;
+}
+
+/* Este contenedor ocupa todo el espacio restante */
+header .texto {
+    flex: 1; /* ocupa el espacio libre */
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    color: white;
+    text-align: center;
+    font-size:  clamp(1.5rem, 7vw, 2rem)
+}
+
+nav{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: #374151;
+    padding: 10px;
+}
+nav .btn{
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    font-size: 1rem;
+    padding: clamp(3px, 14px, 200px);
+    margin: 5px;
+    color: #f3f4f6; /* texto claro */
+    background-color: #374151;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+nav .btn.jugar:hover{
+  background-color: #2563eb;
+  color: #ffffff;
+  transform: scale(0.95);
+  transition: transform 0.2s ease-in-out;
+}
+
+
+/* Contenedor principal para main y aside */
+section {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* ocupa el espacio restante bajo header y nav */
+  align-items: stretch; /*Para que el aside coja todo el vertical */
+  justify-content: center;
+}
+
+/* Proporciones generales */
+main {
+  flex: 2;
+  background-color: #f8fafc; /* casi blanco */
+}
+
+main,
+aside {
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Distribución general de main y aside */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: auto;
+  margin: 0;
+}
+
+/* Contenedor principal */
+main .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* TABLERO DE JUEGO */
+#container-tabla {
+  display: grid;
+  grid-template-columns: repeat(5, clamp(55px, 8vw, 50px));
+  grid-template-rows: repeat(5, clamp(55px, 8vw, 50px));
+  gap: clamp(3px, 0.6vw, 6px);
+  border: 2px solid black;
+  background-color: #6a4dfc;
+  padding: clamp(5px, 1vw, 15px);
+  box-sizing: border-box;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.celda1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  background-color: #fcd34d;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* Imagen dentro del tablero */
+.celda1 img {
+  width: clamp(45px, 7vw, 50px);
+  height: clamp(45px, 7vw, 50px);
+  object-fit: contain;
+  display: block;
+}
+
+/* TECLADO */
+#container-teclado {
+  display: grid;
+  grid-template-columns: repeat(10, clamp(30px, 5vw, 60px)); /* siempre 10 columnas */
+  grid-template-rows: repeat(3, clamp(30px, 5vw, 60px));     /* y 3 filas */
+  gap: clamp(3px, 0.6vw, 6px);
+  margin: 20px auto;
+  justify-content: center;
+  align-content: center;
+  place-items: center; /* centra todo dentro */
+}
+
+/* CELDAS DEL TABLERO Y TECLADO */
+.celda1,
+.celda2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #1e8a6a;
+  background-color: #60fa7f; 
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  transition: background-color 0.3s;
+}
+
+/* Imagen dentro del teclado */
+.celda2 img {
+  width: clamp(25px, 5vw, 50px);
+  height: auto;
+  display: block;
+  cursor: pointer;
+  object-fit: contain;
+}
+
+aside {
+  flex: 1;
+  background-color: #b8d5f3; 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  color: #111827;
+}
+
+/* Aside: centrado y estilos */
+aside .estadisticas,
+aside .tiempo {
+  display: flex;
+  align-items: center;
+  justify-content:space-between;
+}
+aside h1 {
+  text-align: center; 
+  font-size:  clamp(1.5rem,1.5rem, 1rem);
+  color: #1f2937;
+}
+
+aside img {
+  width: clamp(80px, 12vw, 150px);
+}
+
+/*------FOOTER-----*/
+footer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  padding: 0px 0;
+  background-color: #93c5fd;
+  color: #111827;
+}
+footer img{
+  width: clamp(100px, 15vw, 100px);
+  border-radius: 4px;
+  margin-top: 3px;
+}
+footer p{
+  margin: 6px;
+}
+/* -------------------------
+  TABLET: a partir de 768px
+-------------------------- */
+@media (min-width: 768px) {
+  header {
+    flex-direction: row;
+    justify-content: center;
+  }
+  header img {
+    width: 150px;
+    margin: 0 20px;
+  }
+  header .texto h1 {
+    font-size: 4rem;
+  }
+
+  nav {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  nav .btn {
+    width: auto;
+    margin: 0 10px;
+  }
+
+  section {
+    flex-direction: row;
+  }
+  main {
+    flex-direction: row;
+    flex: 2;
+  }
+  aside {
+    flex-direction: column;
+    flex: 1;
+  }
+  aside .estadisticas {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  aside h1 {
+    margin-left: 30px;
+  }
+  #container-tabla {
+    grid-template-columns: repeat(5, 80px);
+    grid-template-rows: repeat(5, 80px);
+  }
+  footer{
+    flex-direction: row;
+  }
+
+}
+
+/* -------------------------
+  ESCRITORIO: desde 1024px
+-------------------------- */
+@media (min-width: 1024px) {
+
+  #container-tabla {
+    grid-template-columns: repeat(5, 60px);
+    grid-template-rows: repeat(5, 60px);
+  }
+
+}
+

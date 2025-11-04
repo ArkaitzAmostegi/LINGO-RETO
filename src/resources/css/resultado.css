@@ -26,7 +26,7 @@ body {
     padding: 40px;
     border-radius: 20px;
     box-shadow: 0 0 20px rgba(255,255,255,0.2);
-    max-width: 500px;
+    width: clamp(250px, 25vw, 500px);
 }
 
 .imagen-resultado {
