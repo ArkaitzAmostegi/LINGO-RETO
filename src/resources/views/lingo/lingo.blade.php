@@ -7,6 +7,8 @@
     <title>Juego</title>
     @vite(['resources/css/style.css', 'resources/js/script.js'])
     <link href="https://fonts.cdnfonts.com/css/iris" rel="css/stylesheet">
+    
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body>

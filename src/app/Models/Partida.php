@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\factories\HasFactory;
 
 class Partida extends Model
 {
-    use HasFactory:
-    //
-     protected $fillable = [
+    use HasFactory;
+
+    protected $fillable = [
         'nombre',
         'tiempo',
         'acertada',
-    ]
+    ];
 }

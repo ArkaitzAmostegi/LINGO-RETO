@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>¡Has Ganado!</title>
-    <?php echo app('Illuminate\Foundation\Vite')(['resources/css/style.css', 'resources/js/script.js']); ?>
+    <?php echo app('Illuminate\Foundation\Vite')(['resources/css/resultado.css', 'resources/js/script.js']); ?>
 </head>
 <body class="victoria">
     <div class="contenedor">

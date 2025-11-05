@@ -285,18 +285,53 @@
         // Si todas las letras son iguales, has ganado
         if (contAciertos === palabraSecreta.length) {
             finPartida();
-            window.location.href= "/acertado"
+
+            enviarPartida({ acertada: true, tiempo: tiempoPartida })
+                .catch(err => console.error(err))
+                .finally(() => {
+                    window.location.href = "/acertado";
+                });
+
         } else {
-            contNoSonIguales ++;
+            contNoSonIguales++;
         }
-        if (contNoSonIguales === 5){
+
+        if (contNoSonIguales === 5) {
             finPartida();
-            window.location.href = "/noAcertado";
+
+            enviarPartida({ acertada: false })
+                .catch(err => console.error(err))
+                .finally(() => {
+                    window.location.href = "/noAcertado";
+                });
         }
 
         // Limpiamos el array de celdas para la siguiente palabra
         celdaIdArray = [];
     }
+
+    function enviarPartida({ acertada, tiempo }) {
+        return fetch('/guardarPartida', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Accept': 'application/json'
+            },
+            // MUY IMPORTANTE: que viaje la cookie de sesión (auth)
+            credentials: 'same-origin',
+            body: JSON.stringify({ acertada, tiempo })
+        })
+        .then(async (res) => {
+            if (!res.ok) {
+                const txt = await res.text();
+                console.error('Error POST /guardarPartida', res.status, txt);
+                throw new Error(`Fallo guardando partida (${res.status})`);
+            }
+            return res.json();
+        });
+    }
+
     
     // Exponer funciones al ámbito global
         window.presionaTecla = presionaTecla;

@@ -3,6 +3,8 @@
 use App\Http\Controllers\PalabraController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PartidaController;
+
 
 Route::get('/', function () {
     return view('lingo.welcome');
@@ -36,7 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     //Ruta para guardar la partida, está en el auth, para aprovechar la autenticación del usuario
-    Route::post('/guardarPartida', [PartidaController::class, 'store'])->middleware('auth')->name('partida.store');
+    Route::post('/guardarPartida', [PartidaController::class, 'store'])->name('partida.store');
 });
 
 require __DIR__.'/auth.php';
