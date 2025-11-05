@@ -137,11 +137,19 @@
 
     for (let l = 0; l < fila; l++) {
         for (let n = 0; n < columna; n++) {
-            tecl += `
-            <div class="celda2">
-                <img id="${l}${n}" src="imagenes/azules/${l}${n}.png" onclick="presionaTecla(this)">
-            </div>
-            `;
+            // Saltamos las teclas 20, 28 y 29
+            if ((l === 2 && (n === 0 || n === 8 || n === 9))){
+                //Las pintamos pero sin ids
+                tecl += ` 
+                    <div class="celda2"></div>
+                `;
+            } else {
+                tecl += `
+                <div class="celda2">
+                    <img id="${l}${n}" src="imagenes/azules/${l}${n}.png" onclick="presionaTecla(this)">
+                </div>
+                `;
+            }
         }
     }
     teclado.innerHTML = tecl;
