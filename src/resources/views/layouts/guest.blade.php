@@ -10,16 +10,36 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        @vite(['resources/css/app.css', 'resources/css/tituloRegistro.css', 'resources/js/app.js'])
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                </a>
+
+            <div class="decoration">
+                <div class="logo">
+                    <img src="{{ asset('imagenes/Logo/logo5.png') }}" alt="logo">
+                </div>
+                <div class="titulo-paranoic">
+                    <a href="/">
+                        <img src="{{ asset('imagenes/verdes/09.png') }}" alt="P" class="w-8 h-8 sm:w-10 sm:h-10">
+                        <img src="{{ asset('imagenes/verdes/10.png') }}" alt="A" class="w-8 h-8 sm:w-10 sm:h-10">
+                        <img src="{{ asset('imagenes/verdes/03.png') }}" alt="R" class="w-8 h-8 sm:w-10 sm:h-10">
+                        <img src="{{ asset('imagenes/verdes/10.png') }}" alt="A" class="w-8 h-8 sm:w-10 sm:h-10">
+                        <img src="{{ asset('imagenes/verdes/26.png') }}" alt="N" class="w-8 h-8 sm:w-10 sm:h-10">
+                        <img src="{{ asset('imagenes/verdes/08.png') }}" alt="O" class="w-8 h-8 sm:w-10 sm:h-10">
+                        <img src="{{ asset('imagenes/verdes/07.png') }}" alt="I" class="w-8 h-8 sm:w-10 sm:h-10">
+                        <img src="{{ asset('imagenes/verdes/23.png') }}" alt="C" class="w-8 h-8 sm:w-10 sm:h-10">
+                        <img src="{{ asset('imagenes/verdes/20.png') }}" alt="C" class="w-8 h-8 sm:w-10 sm:h-10">
+                        <img src="{{ asset('imagenes/verdes/14.png') }}" alt="G" class="w-8 h-8 sm:w-10 sm:h-10">
+                        <img src="{{ asset('imagenes/verdes/10.png') }}" alt="A" class="w-8 h-8 sm:w-10 sm:h-10">
+                        <img src="{{ asset('imagenes/verdes/27.png') }}" alt="M" class="w-8 h-8 sm:w-10 sm:h-10">
+                        <img src="{{ asset('imagenes/verdes/02.png') }}" alt="E" class="w-8 h-8 sm:w-10 sm:h-10">
+                        <img src="{{ asset('imagenes/verdes/11.png') }}" alt="S" class="w-8 h-8 sm:w-10 sm:h-10">
+                    </a>
+                </div>
             </div>
 
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">

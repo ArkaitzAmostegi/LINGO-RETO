@@ -1,44 +1,33 @@
 # Usa una imagen base de PHP con Apache
 FROM php:8.3-apache
 
-# Instala herramientas necesarias para Node.js
-RUN apt-get update && apt-get install -y \
-    curl \
-    gnupg
-
-# Añade el repositorio de Node.js
-RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
-
-# Instala Node.js
-RUN apt-get install -y nodejs
-
-# Actualiza NPM a su última versión globalmente
-RUN npm install -g npm@latest
-
-# 1. Instalar dependencias del sistema y extensiones de PHP
+# 1. Instalar herramientas necesarias del sistema
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
+    curl \
+    gnupg \
     libzip-dev \
     libpng-dev \
     libjpeg-dev \
-    # Limpia para reducir el tamaño de la imagen
-    && rm -rf /var/lib/apt/lists/* \
-    # Habilita las extensiones necesarias para Laravel
-    && docker-php-ext-install pdo pdo_mysql zip exif pcntl gd
+    && rm -rf /var/lib/apt/lists/*
 
-# 2. Instalar Composer globalmente
+# 2. Instalar Node.js y npm (versión estable LTS: 20)
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g npm@latest
+
+# 3. Instalar extensiones PHP necesarias para Laravel
+RUN docker-php-ext-install pdo pdo_mysql zip exif pcntl gd
+
+# 4. Instalar Composer globalmente
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# 3. Configuración de Apache: Modificar el Virtual Host por defecto
-# Copia la configuración de Apache que apunta al directorio 'public' de Laravel
-# El archivo 000-default.conf existe por defecto en la imagen de Apache
+# 5. Configurar Apache (para apuntar a /public de Laravel)
 COPY ./apache.conf /etc/apache2/sites-available/000-default.conf
 
-# 4. Habilitar el módulo 'rewrite' (necesario para URLs limpias de Laravel)
+# 6. Habilitar módulo rewrite (URLs limpias)
 RUN a2enmod rewrite
 
-# 5. Establecer el directorio de trabajo
+# 7. Establecer directorio de trabajo
 WORKDIR /var/www/html
-
-# El puerto 80 ya está expuesto por defecto por la imagen 'php:*-apache'
