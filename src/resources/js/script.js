@@ -4,9 +4,9 @@
 
     //Endpoint para la palabra secreta
         //Enpoint CLIENTE
-            //const ENDPOINT = "http://185.60.43.155:3000/api/word/1";
+            const ENDPOINT = "http://185.60.43.155:3000/api/word/1";
         //Endpoint SEVIDOR
-            const ENDPOINT = "http://localhost:6013/palabra/random";
+            //const ENDPOINT = "http://localhost:6013/palabra/random";
 
     let palabraSecreta = "";
 
@@ -19,9 +19,9 @@
     }
     // Función para comprobar si una palabra generada existe en el diccionario
         //Endpoint CLIENTE palabraSecreta
-            //const CHECK_ENDPOINT = "http://185.60.43.155:3000/api/check/";
+            const CHECK_ENDPOINT = "http://185.60.43.155:3000/api/check/";
         //Endpoint SERVIDOR palabralínea
-            const CHECK_ENDPOINT = "http://localhost:6013/palabra/check/";
+            //const CHECK_ENDPOINT = "http://localhost:6013/palabra/check/";
     async function leerPalabraGenerada(palabraGenerada) {
         //Depuración
         console.log(`Consultando: ${CHECK_ENDPOINT}${palabraGenerada.toLowerCase()}`);
@@ -194,6 +194,21 @@
         contaTiempoPartida();
     }
 
+    // Desactiva el teclado (bloquea clics)
+    function bloquearTeclado() {
+        document.querySelectorAll('#container-teclado img').forEach(img => {
+            img.style.pointerEvents = 'none';
+            img.style.opacity = '0.6'; // opcional, para dar sensación visual
+        });
+    }
+
+    // Activa el teclado (permite clics)
+    function activarTeclado() {
+        document.querySelectorAll('#container-teclado img').forEach(img => {
+            img.style.pointerEvents = 'auto';
+            img.style.opacity = '1';
+        });
+    }
 
     //Función para que aparezca la letra presionada en el lugar correspondiente
     async function presionaTecla(elemento) {
@@ -229,9 +244,9 @@
                 
                 //Si ya se han introducido 5 letras
                 if (contLetras === 5) {
+                    bloquearTeclado(); // bloquea el teclado al completar 5 letras
                     
-                    //Une las letras en un string
-                    let palabraGenerada = letras.join("");
+                    let palabraGenerada = letras.join("");//Une las letras en un string
                     console.log("Palabra completa", palabraGenerada);
 
                     // Reiniciar el temporizador de línea, cada vez que empieza una nueva línea
@@ -252,6 +267,7 @@
                         let codigo = abecedario.indexOf(letra);
                         let codigoFormateado = codigo.toString().padStart(2, '0');
                         document.getElementById(celdaIdArray[i]).src = `/imagenes/rojas/${codigoFormateado}.png`;
+                        activarTeclado(); // reactiva teclado aunque la palabra no exista
                         }
 
                         // Limpiar arrays y contadores
@@ -355,6 +371,9 @@
                     window.location.href = "/noAcertado";
                 });
         }
+
+        // Reactivamos el teclado después de colorear las letras
+        activarTeclado();
 
         // Limpiamos el array de celdas para la siguiente palabra
         celdaIdArray = [];
