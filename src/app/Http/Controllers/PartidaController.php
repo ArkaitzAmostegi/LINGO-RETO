@@ -19,16 +19,16 @@ class PartidaController extends Controller
             }
 
             $validated = $request->validate([
-                'acertada' => 'required|boolean',
                 'tiempo'   => 'nullable|integer|min:0',
             ]);
 
+            $acertada = filter_var($request->input('acertada'), FILTER_VALIDATE_BOOLEAN);
+
             Partida::create([
                 'nombre'   => Auth::user()->name,
-                'acertada' => $validated['acertada'],
-                'tiempo'   => $validated['tiempo'] ?? 0, // siempre guarda tiempo (aunque sea 0)
+                'acertada' => $acertada,
+                'tiempo'   => $validated['tiempo'] ?? 0,
             ]);
-
 
             return response()->json(['ok' => true], 201);
         } catch (\Throwable $e) {
@@ -63,7 +63,7 @@ class PartidaController extends Controller
         $porcentajeVictorias = $total > 0 ? round(($ganadas / $total) * 100, 2) : 0;
 
         // Calcular el menor tiempo con SQL nativo
-       $mejorTiempo = DB::table('partidas')
+        $mejorTiempo = DB::table('partidas')
         ->where('nombre', $nombre)
         ->where('acertada', 1)
         ->where('tiempo', '>', 0) // ignoramos tiempos 0

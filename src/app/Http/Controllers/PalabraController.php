@@ -51,12 +51,17 @@ class PalabraController extends Controller
     //Comprueba la palabra de línea
     public function check($palabra)
     {
-        $exists = DB::table('palabras')->where('palabra', $palabra)->exists();
+        $palabra = strtolower(trim($palabra));
+        $exists = DB::table('palabras')
+            ->whereRaw('LOWER(palabra) = ?', [$palabra])
+            ->exists();
+
         return response()->json([
             'word' => $palabra,
             'exists' => $exists
         ]);
     }
+
 
 
 
