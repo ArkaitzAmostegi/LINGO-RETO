@@ -32,7 +32,7 @@ class PalabraController extends Controller
     return view('palabras.index', ['palabras' => $palabras ]);
     }
 
-    // Devuelve una palabra aleatoria como JSON
+    // Devuelve una palabra aleatoria como JSON, para utilizarla como ENDPOINT
     public function random(): \Illuminate\Http\JsonResponse
     {
         $palabra = Palabra::inRandomOrder()->first();

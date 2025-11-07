@@ -20,7 +20,7 @@ Route::get('/', function () {
 //Route::get('/palabrasBlade', [PalabraController::class, 'indexBlade'])->name('palabras.index');
 
 //Ruta que devuelve de la tabla 'palabras' una palabra aleatoria
-//Route::get('/palabrasRandom/', [PalabraController::class, indexRandom'])->name('palabras.indexRandom');
+//Route::get('/palabrasRandom/', [PalabraController::class, 'indexRandom'])->name('palabras.indexRandom');
 
 
 //Ruta que devuelve de la tabla 'palabras' la cantidad de palabras aleatorias solicitada por URL y sino, devuelve 5 palabras

@@ -3,10 +3,10 @@
     'use strict';
 
     //Endpoint para la palabra secreta
-    //Enpoint CLIENTE
-    const ENDPOINT = "http://185.60.43.155:3000/api/word/1";
-    //Endpoint SEVIDOR
-    //const ENDPOINT = "http://localhost:8000/palabra/random";
+        //Enpoint CLIENTE
+            const ENDPOINT = "http://185.60.43.155:3000/api/word/1";
+        //Endpoint SEVIDOR
+            //const ENDPOINT = "http://localhost:6013/palabra/random";
 
     let palabraSecreta = "";
 
@@ -18,6 +18,10 @@
         console.log(palabraSecreta);
     }
     // Función para comprobar si una palabra generada existe en el diccionario
+        //Endpoint CLIENTE palabraSecreta
+            //const CHECK_ENDPOINT = "http://185.60.43.155:3000/api/check/";
+        //Endpoint SERVIDOR palabralínea
+            //const CHECK_ENDPOINT = "http://localhost:6013/palabra/check/";
     async function leerPalabraGenerada(palabraGenerada) {
         //Depuración
         console.log(`Consultando: http://185.60.43.155:3000/api/check/${palabraGenerada.toLowerCase()}`);
