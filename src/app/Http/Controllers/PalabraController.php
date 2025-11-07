@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Palabra;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
+
 
 class PalabraController extends Controller
 {
@@ -43,6 +45,16 @@ class PalabraController extends Controller
 
         return response()->json([
             'word' => $palabra->palabra
+        ]);
+    }
+
+    //Comprueba la palabra de línea
+    public function check($palabra)
+    {
+        $exists = DB::table('palabras')->where('palabra', $palabra)->exists();
+        return response()->json([
+            'word' => $palabra,
+            'exists' => $exists
         ]);
     }
 

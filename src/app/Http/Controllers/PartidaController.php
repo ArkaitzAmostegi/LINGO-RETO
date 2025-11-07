@@ -26,8 +26,9 @@ class PartidaController extends Controller
             Partida::create([
                 'nombre'   => Auth::user()->name,
                 'acertada' => $validated['acertada'],
-                'tiempo' => $validated['acertada'] ? ($validated['tiempo'] ?? 0) : null,
+                'tiempo'   => $validated['tiempo'] ?? 0, // siempre guarda tiempo (aunque sea 0)
             ]);
+
 
             return response()->json(['ok' => true], 201);
         } catch (\Throwable $e) {

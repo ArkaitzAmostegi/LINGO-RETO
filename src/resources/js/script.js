@@ -4,9 +4,9 @@
 
     //Endpoint para la palabra secreta
         //Enpoint CLIENTE
-            const ENDPOINT = "http://185.60.43.155:3000/api/word/1";
+            //const ENDPOINT = "http://185.60.43.155:3000/api/word/1";
         //Endpoint SEVIDOR
-            //const ENDPOINT = "http://localhost:6013/palabra/random";
+            const ENDPOINT = "http://localhost:6013/palabra/random";
 
     let palabraSecreta = "";
 
@@ -21,12 +21,12 @@
         //Endpoint CLIENTE palabraSecreta
             //const CHECK_ENDPOINT = "http://185.60.43.155:3000/api/check/";
         //Endpoint SERVIDOR palabralínea
-            //const CHECK_ENDPOINT = "http://localhost:6013/palabra/check/";
+            const CHECK_ENDPOINT = "http://localhost:6013/palabra/check/";
     async function leerPalabraGenerada(palabraGenerada) {
         //Depuración
-        console.log(`Consultando: http://185.60.43.155:3000/api/check/${palabraGenerada.toLowerCase()}`);
+        console.log(`Consultando: ${CHECK_ENDPOINT}${palabraGenerada.toLowerCase()}`);
         try {
-            const resp = await fetch(`http://185.60.43.155:3000/api/check/${palabraGenerada.toLowerCase()}`);
+            const resp = await fetch(`${CHECK_ENDPOINT}${palabraGenerada.toLowerCase()}`);
             const data = await resp.json();
             console.log(`Palabra comprobada: ${data.word}, existe: ${data.exists}`);
             return data.exists; // Devuelve true o false
