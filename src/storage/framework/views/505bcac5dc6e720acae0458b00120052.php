@@ -5,9 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juego</title>
-    <?php echo app('Illuminate\Foundation\Vite')(['resources/css/style.css', 'resources/js/script.js']); ?>
     <link href="https://fonts.cdnfonts.com/css/iris" rel="css/stylesheet">
-    
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 </head>
 
@@ -85,7 +83,8 @@
             <img src="imagenes/Logo/logo5.png" alt="">
         </div>
     </footer>
-
+    
+    <?php echo app('Illuminate\Foundation\Vite')(['resources/css/style.css', 'resources/js/script.js']); ?>
 </body>
 </html>
 <?php /**PATH /var/www/html/resources/views/lingo/lingo.blade.php ENDPATH**/ ?>

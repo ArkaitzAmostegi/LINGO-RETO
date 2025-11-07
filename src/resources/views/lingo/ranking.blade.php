@@ -31,21 +31,21 @@
         <table>
             <thead>
                 <tr>
-                    <th>Posición</th>
-                    <th>Nombre</th>
-                    <th>Partidas jugadas</th>
-                    <th>Partidas ganadas</th>
-                    <th>Mejor tiempo (s)</th>
+                    <th class="col-posicion">Posición</th>
+                    <th class="col-nombre">Nombre</th>
+                    <th class="col-jugadas">Partidas jugadas</th>
+                    <th class="col-ganadas">Partidas ganadas</th>
+                    <th class="col-tiempo">Mejor tiempo (s)</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($ranking as $index => $jugador)
                     <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $jugador['nombre'] }}</td>
-                        <td>{{ $jugador['jugadas'] }}</td>
-                        <td>{{ $jugador['ganadas'] }}</td>
-                        <td>{{ $jugador['mejor_tiempo'] !== null ? $jugador['mejor_tiempo'] : '—' }}</td>
+                        <td class="col-posicion">{{ $index + 1 }}</td>
+                        <td class="col-nombre">{{ $jugador['nombre'] }}</td>
+                        <td class="col-jugadas">{{ $jugador['jugadas'] }}</td>
+                        <td class="col-ganadas">{{ $jugador['ganadas'] }}</td>
+                        <td class="col-tiempo">{{ $jugador['mejor_tiempo'] !== null ? $jugador['mejor_tiempo'] : '—' }}</td>
                     </tr>
                 @endforeach
             </tbody>

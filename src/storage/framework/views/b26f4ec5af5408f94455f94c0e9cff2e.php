@@ -11,7 +11,7 @@
         <img src="imagenes/gameover.jpg" alt="Derrota" class="imagen-resultado">
         <h1>¡Has perdido!</h1>
         <p>La palabra seguirá siendo un misterio... 😈</p>
-        <a href="lingo.html" class="btnJugar">Intentarlo de nuevo</a>
+        <a href="<?php echo e(route('lingo')); ?>" class="btnJugar">Jugar otra vez</a>
     </div>
 </body>
 </html>

@@ -50,7 +50,7 @@ header .texto {
     align-items: center; 
     color: #ffffff;
     text-align: center;
-    font-size: clamp(1.5rem, 7vw, 2rem);
+    font-size: clamp(1rem, 3vw, 1.5rem)
 }
 /* Usuario autenticado dentro del header */
 header .usuario {
@@ -66,7 +66,6 @@ header .usuario h3 {
   margin: 0;
   color: #85e0e0; 
   font-weight: normal;
-  margin-bottom: 10px;
 }
 
 header .usuario button {
@@ -75,6 +74,7 @@ header .usuario button {
   border: none;
   border-radius: 6px;
   padding: 6px 12px;
+  margin-bottom: 10px;
   font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -282,10 +282,6 @@ footer p{
     width: 150px;
     margin: 0 20px;
   }
-  header .texto h1 {
-    font-size: 4rem;
-  }
-
   nav {
     flex-direction: row;
     justify-content: space-around;
@@ -337,6 +333,10 @@ footer p{
   aside h1 {
     margin-left: 30px;
     font-size: 2.5rem;
+  }
+  header img {
+    width: 125px;
+    margin: 0 20px;
   }
 
 }

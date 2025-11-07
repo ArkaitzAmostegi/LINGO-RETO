@@ -31,21 +31,21 @@
         <table>
             <thead>
                 <tr>
-                    <th>Posición</th>
-                    <th>Nombre</th>
-                    <th>Partidas jugadas</th>
-                    <th>Partidas ganadas</th>
-                    <th>Mejor tiempo (s)</th>
+                    <th class="col-posicion">Posición</th>
+                    <th class="col-nombre">Nombre</th>
+                    <th class="col-jugadas">Partidas jugadas</th>
+                    <th class="col-ganadas">Partidas ganadas</th>
+                    <th class="col-tiempo">Mejor tiempo (s)</th>
                 </tr>
             </thead>
             <tbody>
                 <?php $__currentLoopData = $ranking; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $jugador): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <tr>
-                        <td><?php echo e($index + 1); ?></td>
-                        <td><?php echo e($jugador['nombre']); ?></td>
-                        <td><?php echo e($jugador['jugadas']); ?></td>
-                        <td><?php echo e($jugador['ganadas']); ?></td>
-                        <td><?php echo e($jugador['mejor_tiempo'] !== null ? $jugador['mejor_tiempo'] : '—'); ?></td>
+                        <td class="col-posicion"><?php echo e($index + 1); ?></td>
+                        <td class="col-nombre"><?php echo e($jugador['nombre']); ?></td>
+                        <td class="col-jugadas"><?php echo e($jugador['jugadas']); ?></td>
+                        <td class="col-ganadas"><?php echo e($jugador['ganadas']); ?></td>
+                        <td class="col-tiempo"><?php echo e($jugador['mejor_tiempo'] !== null ? $jugador['mejor_tiempo'] : '—'); ?></td>
                     </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </tbody>

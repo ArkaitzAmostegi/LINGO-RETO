@@ -5,9 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juego</title>
-    @vite(['resources/css/style.css', 'resources/js/script.js'])
     <link href="https://fonts.cdnfonts.com/css/iris" rel="css/stylesheet">
-    
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
@@ -85,6 +83,7 @@
             <img src="imagenes/Logo/logo5.png" alt="">
         </div>
     </footer>
-
+    
+    @vite(['resources/css/style.css', 'resources/js/script.js'])
 </body>
 </html>

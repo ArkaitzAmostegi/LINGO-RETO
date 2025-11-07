@@ -2,7 +2,7 @@
     //Endpoint para la palabra secreta
     'use strict';
 
-    const ENDPOINT = "http://185.60.43.155:3000/api/word/1";
+    const ENDPOINT = "http://185.60.43.155:3000/api/word/1"; //Para la palabraSecreta
     let palabraSecreta = "";
 
     // 1) Función asíncrona: usa await con fetch y con resp.json() (Sin control de errores)
@@ -12,6 +12,21 @@
         palabraSecreta = (data.word).toUpperCase();
         console.log(palabraSecreta);
     }
+    // Función para comprobar si una palabra generada existe en el diccionario
+    async function leerPalabraGenerada(palabraGenerada) {
+        //Depuración
+        console.log(`Consultando: http://185.60.43.155:3000/api/check/${palabraGenerada.toLowerCase()}`);
+        try {
+            const resp = await fetch(`http://185.60.43.155:3000/api/check/${palabraGenerada.toLowerCase()}`);
+            const data = await resp.json();
+            console.log(`Palabra comprobada: ${data.word}, existe: ${data.exists}`);
+            return data.exists; // Devuelve true o false
+        } catch (error) {
+            console.error("Error al comprobar la palabra:", error);
+            return false;
+        }
+    }
+
 
     let tiempoLinea; //En segundos
     let tiempoPartida; //En segundos
@@ -172,63 +187,85 @@
 
 
     //Función para que aparezca la letra presionada en el lugar correspondiente
-    function presionaTecla(elemento) {
-        if (comenzarPartida){
-            // Obtengo el id de la tecla, y la paso a número (aunque será un string con dos cifras)
-            let letra = Number(elemento.id);
-            //Introduzco en el array palabra cada letra según la posición del abecedario
-            letras.push(abecedario[letra]);
+    async function presionaTecla(elemento) {
+        if (!comenzarPartida)return;
+        // Obtengo el id de la tecla, y la paso a número (aunque será un string con dos cifras)
+        let letra = Number(elemento.id);
+        //Introduzco en el array palabra cada letra según la posición del abecedario
+        letras.push(abecedario[letra]);
 
-            //DEPURACIÓN
-            console.log('ID tecla:', letra);
-            console.log('SRC tecla:', elemento.src);
-            console.log("Array abecedario", abecedario[letra]);
-            console.log("Array letras", letras);
+        //DEPURACIÓN
+        console.log('ID tecla:', letra);
+        console.log('SRC tecla:', elemento.src);
+        console.log("Array abecedario", abecedario[letra]);
+        console.log("Array letras", letras);
 
-            //Selecciono todas las celdas (todas las imágenes de la tabla principal)
-            let containerTabla = document.getElementById("container-tabla");
-            let celdas = containerTabla.querySelectorAll("img");
+        //Selecciono todas las celdas (todas las imágenes de la tabla principal)
+        let containerTabla = document.getElementById("container-tabla");
+        let celdas = containerTabla.querySelectorAll("img");
 
-            // Recorro las celdas de la tabla principal
-            for (let celda of celdas) {
+        // Recorro las celdas de la tabla principal
+        for (let celda of celdas) {
+            
+            // Compruebo si la celda está vacía (imagen de vacio.gif)
+            if (celda.src.includes("29.png")) { 
                 
-                // Compruebo si la celda está vacía (imagen de vacio.gif)
-                if (celda.src.includes("29.png")) { 
-                    
-                    // Si está vacía, le asigno la imagen de la tecla pulsada
-                    celda.src = elemento.src;
-                    contLetras++;  //Incremento el contador de letras introducidas  
-                    console.log("Contador letras fila: ", contLetras);  //DEPURACIÓN 
+                // Si está vacía, le asigno la imagen de la tecla pulsada
+                celda.src = elemento.src;
+                contLetras++;  //Incremento el contador de letras introducidas  
+                console.log("Contador letras fila: ", contLetras);  //DEPURACIÓN 
 
-                    celdaIdArray.push(celda.id); //Meto el ID en el array de celdas
-                    //Reinicio del tiempo de línea al escribir la primera letra
+                celdaIdArray.push(celda.id); //Meto el ID en el array de celdas
+                //Reinicio del tiempo de línea al escribir la primera letra
+                
+                //Si ya se han introducido 5 letras
+                if (contLetras === 5) {
                     
-                    //Si ya se han introducido 5 letras
-                    if (contLetras === 5) {
-                        console.log("Palabra completa");
-                        let palabraGenerada = "";// Reiniciar el temporizador de línea, cada vez que empieza una nueva línea
-                        if (intervaloLinea) clearInterval(intervaloLinea);
-                        tiempoLinea = 60;
-                        contaTiempoLinea();
-                        //Recorro el array palabra, para unir las letras en un string
-                        letras.forEach(elemento => {
-                            palabraGenerada = palabraGenerada + elemento; 
-                        });
-                        contLetras = 0;  //Reinicio el contador de letras
-                        console.log(palabraGenerada)
-                        //delete letras; NO hace falta eliminar el array letras, creando nuevo es suficiente
-                        letras = [];   //Creo uno nuevo array
+                    //Une las letras en un string
+                    let palabraGenerada = letras.join("");
+                    console.log("Palabra completa", palabraGenerada);
 
-                        /*Por Sonia
-                        Haría falta llamar a la ruta http://localhost/verificarPalabra/palabraGenerada y devolver un json
-                        */
-                        compara(palabraSecreta, palabraGenerada); //Llamo a la función que compara las dos palabras
-                    }else{
-                        //Si aún no se han completado 5 letras
-                        celdaId = celda.id; //Guardo el ID de la celda actual
+                    // Reiniciar el temporizador de línea, cada vez que empieza una nueva línea
+                    if (intervaloLinea) clearInterval(intervaloLinea);
+                    tiempoLinea = 60;
+                    contaTiempoLinea();
+
+                    // Comprobar si la palabra existe
+                    const existe = await leerPalabraGenerada(palabraGenerada);
+                    console.log("Existe en diccionario:", existe);
+
+                    if (!existe) {
+                    alert("Esa palabra no existe en el diccionario. Te has quedado sin pistas");
+
+                    // Pinta las letras en rojo
+                    for (let i = 0; i < celdaIdArray.length; i++) {
+                        let letra = letras[i];
+                        let codigo = abecedario.indexOf(letra);
+                        let codigoFormateado = codigo.toString().padStart(2, '0');
+                        document.getElementById(celdaIdArray[i]).src = `imagenes/rojas/${codigoFormateado}.png`;
+                        }
+
+                        // Limpiar arrays y contadores
+                        letras = [];
+                        celdaIdArray = [];
+                        contLetras = 0;
+                        return;
                     }
-                break; //Rompo el bucle para no seguir recorriendo las celdas
+                    /*Por Sonia
+                    Haría falta llamar a la ruta http://localhost/verificarPalabra/palabraGenerada y devolver un json
+                    */
+                    //Si la palabra existe compara
+                    compara(palabraSecreta, palabraGenerada); //Llamo a la función que compara las dos palabras
+                    
+                    // Reiniciamos arrays y contadores
+                    letras = [];
+                    celdaIdArray = [];
+                    contLetras = 0;
+                }else{
+                    //Si aún no se han completado 5 letras
+                    celdaId = celda.id; //Guardo el ID de la celda actual
                 }
+            break; //Rompo el bucle para no seguir recorriendo las celdas
             }
         }
     }
@@ -326,7 +363,3 @@
 // http://185.60.43.155:3000/api/word/1
 
 // (1--> ES, 2---> EU, 3 --> EN)
-
-// Ondo segi !
-
-// Enrique

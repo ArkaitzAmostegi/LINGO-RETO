@@ -60,6 +60,7 @@ p {
     text-decoration: none;
     font-weight: bold;
     padding: 12px 25px;
+    margin-top: 20px;
     border-radius: 10px;
     box-shadow: 2px 2px 8px rgb(0,0,0.5);
     transition: 0.3s;
@@ -68,4 +69,28 @@ p {
 .btnJugar:hover {
     background-color: #facc15;
     transform: scale(1.1);
+}
+
+/* ---- RANKING RESPONSIVE ---- */
+
+/* Base: móvil,  nombre y tiempo */
+.col-posicion,
+.col-jugadas,
+.col-ganadas {
+    display: none;
+}
+
+/* Tablet: mostrar posición también */
+@media (min-width: 768px) {
+    .col-posicion {
+        display: table-cell;
+    }
+}
+
+/* Escritorio: mostrar todas las columnas */
+@media (min-width: 1024px) {
+    .col-jugadas,
+    .col-ganadas {
+        display: table-cell;
+    }
 }
