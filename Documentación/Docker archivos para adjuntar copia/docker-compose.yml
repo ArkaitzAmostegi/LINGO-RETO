@@ -1,0 +1,92 @@
+services:
+  # ----------------------------------------------------
+  # 1. SERVICIO DE APLICACIÓN WEB (PHP-Apache)
+  # ----------------------------------------------------
+  web:
+    # Construye la imagen usando el Dockerfile creado
+    build:
+      context: ./docker/php
+    container_name: lingo-apache
+    restart: unless-stopped
+    # Mapea la carpeta local 'app' al directorio de trabajo del contenedor
+    volumes:
+      - ./src:/var/www/html
+    # Expone el puerto 81 del contenedor al puerto 80 del host
+    ports:
+      - "6013:80"
+
+    depends_on:
+      - db
+    # Conecta a la red interna
+    networks:
+      - lingo_network
+
+  # ----------------------------------------------------
+  # 2. SERVICIO DE BASE DE DATOS (MySQL)
+  # ----------------------------------------------------
+  db:
+    image: mysql:8.0
+    container_name: lingo-mysql
+    restart: unless-stopped
+    environment:
+      # Variables de entorno de MySQL. ¡Cambia las contraseñas!
+      MYSQL_ROOT_PASSWORD: pasword
+      MYSQL_DATABASE: lingo_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    # Mapea un volumen para persistir los datos de la base de datos
+    volumes:
+      - lingo_dbdata:/var/lib/mysql
+    networks:
+      - lingo_network
+
+  # ----------------------------------------------------
+  # 3. SERVICIO DE GESTIÓN DE BASES DE DATOS (phpMyAdmin)
+  # ----------------------------------------------------
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: lingo-phpmyadmin
+    restart: unless-stopped
+    # Mapea el puerto 8080 del host al 80 del phpMyAdmin
+    ports:
+      - "8080:80"
+    environment:
+      # El host es el nombre del servicio Docker de la base de datos
+      PMA_HOST: db
+      # El puerto de MySQL dentro de la red Docker
+      PMA_PORT: 3306 
+    depends_on:
+      - db
+    networks:
+      - lingo_network
+
+  # -------------------------------------------------------------------------
+  # 4. SERVICIO VITE PARA EL CORRECTO FUNCIONAMIENTO DE HTML Y CSS EN LARAVEL
+  # -------------------------------------------------------------------------
+  vite:
+    build:
+      context: ./docker/php
+    container_name: lingo-vite
+    working_dir: /var/www/html
+    command:  sh -c "npm install && npm run dev"
+    volumes:
+      - ./src:/var/www/html
+    ports:
+      - "5173:5173"
+    networks:
+      - lingo_network
+    depends_on:
+      - web
+
+
+# ----------------------------------------------------
+# 5. REDES Y VOLÚMENES
+# ----------------------------------------------------
+networks:
+  # Red interna para que los contenedores se comuniquen entre sí por nombre
+  lingo_network:
+    driver: bridge
+
+volumes:
+  # Volumen para persistir los datos de MySQL
+  lingo_dbdata:
