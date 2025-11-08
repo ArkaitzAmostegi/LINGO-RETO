@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Palabra;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
+
 
 class PalabraController extends Controller
 {
@@ -31,6 +33,36 @@ class PalabraController extends Controller
         
     return view('palabras.index', ['palabras' => $palabras ]);
     }
+
+    // Devuelve una palabra aleatoria como JSON, para utilizarla como ENDPOINT
+    public function random(): \Illuminate\Http\JsonResponse
+    {
+        $palabra = Palabra::inRandomOrder()->first();
+
+        if (!$palabra) {
+            return response()->json(['error' => 'No hay palabras en la base de datos'], 404);
+        }
+
+        return response()->json([
+            'word' => $palabra->palabra
+        ]);
+    }
+
+    //Comprueba la palabra de línea
+    public function check($palabra)
+    {
+        $palabra = strtolower(trim($palabra));
+        $exists = DB::table('palabras')
+            ->whereRaw('LOWER(palabra) = ?', [$palabra])
+            ->exists();
+
+        return response()->json([
+            'word' => $palabra,
+            'exists' => $exists
+        ]);
+    }
+
+
 
 
     /**

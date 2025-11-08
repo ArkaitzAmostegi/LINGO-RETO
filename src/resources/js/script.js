@@ -1,8 +1,13 @@
 
-    //Endpoint para la palabra secreta
+    
     'use strict';
 
-    const ENDPOINT = "http://185.60.43.155:3000/api/word/1";
+    //Endpoint para la palabra secreta
+        //Enpoint CLIENTE
+            const ENDPOINT = "http://185.60.43.155:3000/api/word/1";
+        //Endpoint SEVIDOR
+            //const ENDPOINT = "http://localhost:6013/palabra/random";
+
     let palabraSecreta = "";
 
     // 1) Función asíncrona: usa await con fetch y con resp.json() (Sin control de errores)
@@ -13,11 +18,16 @@
         console.log(palabraSecreta);
     }
     // Función para comprobar si una palabra generada existe en el diccionario
+        //Endpoint CLIENTE palabraSecreta
+            const CHECK_ENDPOINT = "http://185.60.43.155:3000/api/check/";
+        //Endpoint SERVIDOR palabralínea
+            //const CHECK_ENDPOINT = "http://localhost:6013/palabra/check/";
+
     async function leerPalabraGenerada(palabraGenerada) {
         //Depuración
-        console.log(`Consultando: http://185.60.43.155:3000/api/check/${palabraGenerada.toLowerCase()}`);
+        console.log(`Consultando: ${CHECK_ENDPOINT}${palabraGenerada.toLowerCase()}`);
         try {
-            const resp = await fetch(`http://185.60.43.155:3000/api/check/${palabraGenerada.toLowerCase()}`);
+            const resp = await fetch(`${CHECK_ENDPOINT}${palabraGenerada.toLowerCase()}`);
             const data = await resp.json();
             console.log(`Palabra comprobada: ${data.word}, existe: ${data.exists}`);
             return data.exists; // Devuelve true o false
@@ -40,9 +50,9 @@
         const imgDec = document.getElementById("partida-decenas");
         const imgUni = document.getElementById("partida-unidades");
 
-        imgCen.src = `imagenes/Numeros/${centenas}.png`;
-        imgDec.src = `imagenes/Numeros/${decenas}.png`;
-        imgUni.src = `imagenes/Numeros/${unidades}.png`;
+        imgCen.src = `/imagenes/Numeros/${centenas}.png`;
+        imgDec.src = `/imagenes/Numeros/${decenas}.png`;
+        imgUni.src = `/imagenes/Numeros/${unidades}.png`;
     }
     //Función TEMPORIZADOR REGRESIVO LINEA
     function actualizarTiempoLinea() {
@@ -52,8 +62,8 @@
         const imgDec = document.getElementById("linea-decenas");
         const imgUni = document.getElementById("linea-unidades");
 
-        imgDec.src = `imagenes/Numeros/${decenas}.png`;
-        imgUni.src = `imagenes/Numeros/${unidades}.png`;
+        imgDec.src = `/imagenes/Numeros/${decenas}.png`;
+        imgUni.src = `/imagenes/Numeros/${unidades}.png`;
     }
     let intervaloPartida = null;
     let intervaloLinea = null;
@@ -81,24 +91,40 @@
 
             if (tiempoLinea <= 0){
                 clearInterval(intervaloLinea);
-                finPartida();
-                window.location.href = "/noAcertado";
+                contNoSonIguales++;
+                if (contNoSonIguales === 5) {
+                    finPartida(false);
+                    return;
+                } else {
+                    tiempoLinea = 60;
+                    contaTiempoLinea();
+                    activarTeclado();
+                }
             }
         }, 1000);
     }
 
     //Función para detener el tiempo y ponerlo a los valores iniciales
-    function finPartida() {
+    function finPartida(acertada = false, tiempo = 0) {
+        //Detener todos los temporizadores
         clearInterval(intervaloPartida);
         clearInterval(intervaloLinea);
-        tiempoPartida = 180;
-        tiempoLinea = 60;
-        actualizarTiempoPartida();
-        actualizarTiempoLinea();
-        
-        // Deshabilitar clics en el teclado
+
+        //Calcular el tiempo real si gana
+        const tiempoInicial = 180;
+        const tiempoUsado = acertada ? (tiempoInicial - tiempoPartida) : (tiempo || 0);
+
+        //Desactivar teclado
         document.querySelectorAll('#container-teclado img').forEach(img => img.onclick = null);
+
+        //Enviar los datos al servidor
+        enviarPartida({ acertada, tiempo: tiempoUsado })
+            .catch(err => console.error(err))
+            .finally(() => {
+                window.location.href = acertada ? "/acertado" : "/noAcertado";
+            });
     }
+
 
     //Para comprobar si quedan casillas vacias, o está todo el tablero escrito por el usuario, y se termina la partida
     function tableroLleno() {
@@ -137,7 +163,7 @@
         for (let j = 0; j < N; j++) {
             sHTML += `
             <div class="celda1 ${j}">
-                <img id="${i}${j}" src="imagenes/verdes/29.png">
+                <img id="${i}${j}" src="/imagenes/verdes/29.png">
             </div>
             `;
         }
@@ -161,7 +187,7 @@
             } else {
                 tecl += `
                 <div class="celda2">
-                    <img id="${l}${n}" src="imagenes/azules/${l}${n}.png" onclick="presionaTecla(this)">
+                    <img id="${l}${n}" src="/imagenes/azules/${l}${n}.png" onclick="presionaTecla(this)">
                 </div>
                 `;
             }
@@ -185,6 +211,21 @@
         contaTiempoPartida();
     }
 
+    // Desactiva el teclado (bloquea clics)
+    function bloquearTeclado() {
+        document.querySelectorAll('#container-teclado img').forEach(img => {
+            img.style.pointerEvents = 'none';
+            img.style.opacity = '0.6'; // opcional, para dar sensación visual
+        });
+    }
+
+    // Activa el teclado (permite clics)
+    function activarTeclado() {
+        document.querySelectorAll('#container-teclado img').forEach(img => {
+            img.style.pointerEvents = 'auto';
+            img.style.opacity = '1';
+        });
+    }
 
     //Función para que aparezca la letra presionada en el lugar correspondiente
     async function presionaTecla(elemento) {
@@ -220,9 +261,9 @@
                 
                 //Si ya se han introducido 5 letras
                 if (contLetras === 5) {
+                    bloquearTeclado(); // bloquea el teclado al completar 5 letras
                     
-                    //Une las letras en un string
-                    let palabraGenerada = letras.join("");
+                    let palabraGenerada = letras.join("");//Une las letras en un string
                     console.log("Palabra completa", palabraGenerada);
 
                     // Reiniciar el temporizador de línea, cada vez que empieza una nueva línea
@@ -242,13 +283,22 @@
                         let letra = letras[i];
                         let codigo = abecedario.indexOf(letra);
                         let codigoFormateado = codigo.toString().padStart(2, '0');
-                        document.getElementById(celdaIdArray[i]).src = `imagenes/rojas/${codigoFormateado}.png`;
+                        document.getElementById(celdaIdArray[i]).src = `/imagenes/rojas/${codigoFormateado}.png`;
+                        }
+                        // Enviar partida como no acertada
+                        // Marcar fallo de línea pero continuar la partida
+                        contNoSonIguales++;
+                        // Si ya ha fallado 5 veces (todas las líneas), termina la partida
+                        if (contNoSonIguales === 5) {
+                            finPartida(false);
+                            return;
                         }
 
                         // Limpiar arrays y contadores
                         letras = [];
                         celdaIdArray = [];
                         contLetras = 0;
+                        activarTeclado();    
                         return;
                     }
                     /*Por Sonia
@@ -291,7 +341,7 @@
             if(palabraSecreta[i] === palabraGenerada[i]){
                 contAciertos++;
                 let codigoFormateado = codigo.toString().padStart(2, '0');
-                document.getElementById(celdaIdArray[i]).src = `imagenes/verdes/${codigoFormateado}.png`;
+                document.getElementById(celdaIdArray[i]).src = `/imagenes/verdes/${codigoFormateado}.png`;
             }
         }
 
@@ -311,56 +361,45 @@
             if (palabraSecreta.includes(palabraGenerada[i])) {
                 // Letra está en la palabra, pero no en esa posición
                 let codigoFormateado = codigo.toString().padStart(2, '0');
-                img.src = `imagenes/naranjas/${codigoFormateado}.png`;
+                img.src = `/imagenes/naranjas/${codigoFormateado}.png`;
             } else {
                 // Letra no está en la palabra
                 let codigoFormateado = codigo.toString().padStart(2, '0');
-                img.src = `imagenes/rojas/${codigoFormateado}.png`;
+                img.src = `/imagenes/rojas/${codigoFormateado}.png`;
             }
         }
 
         // Si todas las letras son iguales, has ganado
         if (contAciertos === palabraSecreta.length) {
-             // Calculamos el tiempo empleado
-            const tiempoInicial = 180;
-            const tiempoUsado = tiempoInicial - tiempoPartida;
-            
-            finPartida();
-
-            enviarPartida({ acertada: true, tiempo: tiempoUsado })
-                .catch(err => console.error(err))
-                .finally(() => {
-                    window.location.href = "/acertado";
-                });
-
+            //Finalizamos la partida
+            finPartida(true);
+            return;
         } else {
             contNoSonIguales++;
         }
 
         if (contNoSonIguales === 5) {
-            finPartida();
-
-            enviarPartida({ acertada: false })
-                .catch(err => console.error(err))
-                .finally(() => {
-                    window.location.href = "/noAcertado";
-                });
+            finPartida(false);
+            return;
         }
+
+        // Reactivamos el teclado después de colorear las letras
+        activarTeclado();
 
         // Limpiamos el array de celdas para la siguiente palabra
         celdaIdArray = [];
     }
 
     function enviarPartida({ acertada, tiempo }) {
-        return fetch('/guardarPartida', {
+
+        return fetch('http://localhost:6013/guardarPartida', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                 'Accept': 'application/json'
             },
-            // MUY IMPORTANTE: que viaje la cookie de sesión (auth)
-            credentials: 'same-origin',
+            credentials: 'include', // permite enviar cookies entre puertos distintos
             body: JSON.stringify({ acertada, tiempo })
         })
         .then(async (res) => {
