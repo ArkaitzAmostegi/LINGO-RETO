@@ -33,7 +33,7 @@
                         <img src="<?php echo e(asset('imagenes/verdes/23.png')); ?>" alt="C" class="w-8 h-8 sm:w-10 sm:h-10">
                     </a>
                 </div>
-                <div class="titulo-paranoic flex justify-center space-x-1 mt-4">
+                <div class="titulo-paranoic flex justify-center space-x-1 mt-6">
                     <a href="/" class="flex">
                         <img src="<?php echo e(asset('imagenes/verdes/14.png')); ?>" alt="G" class="w-8 h-8 sm:w-10 sm:h-10">
                         <img src="<?php echo e(asset('imagenes/verdes/10.png')); ?>" alt="A" class="w-8 h-8 sm:w-10 sm:h-10">
