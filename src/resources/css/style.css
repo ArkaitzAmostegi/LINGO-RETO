@@ -257,8 +257,8 @@ footer{
   justify-content: space-around;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   padding: 0px 0;
-  background-color: #996633;
-  color: #85e0e0;
+  background-color: #995512;
+  color: #c1ffff;
 }
 footer img{
   width: clamp(100px, 15vw, 100px);
